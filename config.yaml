@@ -1,0 +1,30 @@
+app_name: Canopus Notification
+app_version: 0.0.1
+app_env: dev
+
+dev:
+  adapter: mongodb
+  database: va
+  username: yourusername
+  password: yourpassword
+  host: 127.0.0.1     #defaults to 127.0.0.1
+  port: 3222
+  log_path: storages/logs/access_log
+
+staging:
+  adapter: mongodb
+  database: canopus_notification
+  username: yourusername
+  password: yourpassword
+  host: 0.0.0.0     #defaults to 127.0.0.1
+  port: 3222
+  log_path: storages/logs/access_log
+
+production:
+  adapter: mongodb
+  database: canopus_notification
+  username: yourusername
+  password: yourpassword
+  host: 0.0.0.0     #defaults to 127.0.0.1
+  port: 3222
+  log_path: storages/logs/access_log
