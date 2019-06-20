@@ -2,9 +2,9 @@
 package main
 
 import (
-	"github.com/alterra/canopus-master-mservice/app/api"
-	"github.com/alterra/canopus-master-mservice/database/mongo"
-	"github.com/alterra/canopus-master-mservice/routers"
+	"github.com/hilmansyafei/canopus-master-mservice/app/api"
+	"github.com/hilmansyafei/canopus-master-mservice/database/mongo"
+	"github.com/hilmansyafei/canopus-master-mservice/routers"
 )
 
 func main() {

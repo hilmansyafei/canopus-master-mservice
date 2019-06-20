@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/alterra/canopus-master-mservice/config"
+	"github.com/hilmansyafei/canopus-master-mservice/config"
 
 	"github.com/zebresel-com/mongodm"
 )

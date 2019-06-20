@@ -1,9 +1,9 @@
 package lib
 
 import (
-	"github.com/alterra/canopus-master-mservice/config"
-	"github.com/alterra/go-package/modules"
-	"github.com/alterra/go-package/status"
+	"github.com/hilmansyafei/canopus-master-mservice/config"
+	"github.com/hilmansyafei/go-package/modules"
+	"github.com/hilmansyafei/go-package/status"
 	"github.com/labstack/echo"
 )
 

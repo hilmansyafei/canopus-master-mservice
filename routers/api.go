@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"github.com/alterra/canopus-master-mservice/app/api"
-	"github.com/alterra/canopus-master-mservice/app/middleware"
+	"github.com/hilmansyafei/canopus-master-mservice/app/api"
+	"github.com/hilmansyafei/canopus-master-mservice/app/middleware"
 
 	"github.com/labstack/echo"
 )
