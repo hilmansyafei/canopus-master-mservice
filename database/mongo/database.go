@@ -1,38 +1,23 @@
 package mongo
 
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"os"
+	"log"
 
 	"github.com/hilmansyafei/canopus-master-mservice/config"
-
-	"github.com/zebresel-com/mongodm"
+	"gopkg.in/mgo.v2"
 )
 
-func MongodbConn() *mongodm.Connection {
-	file, err := ioutil.ReadFile("storages/files/locals.json")
-	if err != nil {
-		fmt.Printf("File error: %v\n", err)
-		os.Exit(1)
-	}
-
-	// Unmarshal JSON to map
-	var localMap map[string]map[string]string
-	json.Unmarshal(file, &localMap)
-	dbConfig := &mongodm.Config{
-		DatabaseHosts: []string{config.App.AppConfig.String("host")},
-		DatabaseName:  config.App.AppConfig.String("database"),
-		Locals:        localMap["en-US"],
-	}
+// MongodbConn : COnnection to mongodb
+func MongodbConn() *mgo.Database {
 	// Connect to database
-	db, err := mongodm.Connect(dbConfig)
+	session, err := mgo.Dial(config.App.AppConfig.String("host") + "/" + config.App.AppConfig.String("database"))
 
 	// Check for error
 	if err != nil {
-		fmt.Println("Database connection error: %v", err)
+		log.Fatalf("Failed to connect to database: %v", err)
 	}
+
+	db := session.DB(config.App.AppConfig.String("database"))
 
 	return db
 }

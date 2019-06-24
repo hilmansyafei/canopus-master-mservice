@@ -1,8 +1,8 @@
 package api
 
-import "github.com/zebresel-com/mongodm"
+import "gopkg.in/mgo.v2"
 
 // Handler connection database
 type Handler struct {
-	DB *mongodm.Connection
+	DB *mgo.Database
 }
