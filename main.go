@@ -11,5 +11,5 @@ func main() {
 	dbConn := mongo.MongodbConn()
 	env := &api.Handler{DB: dbConn}
 	e := routers.Gen(env)
-	e.Logger.Fatal(e.Start(":1324"))
+	e.Logger.Fatal(e.Start(":1322"))
 }

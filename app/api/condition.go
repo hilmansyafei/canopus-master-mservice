@@ -82,3 +82,35 @@ func (h *Handler) GetAll(c echo.Context) error {
 	lib.GenLog(c, "", response.BuildSuccess(conditions, status.OKSuccess), "Response Log")
 	return c.JSON(http.StatusOK, response.BuildSuccess(conditions, status.OKSuccess))
 }
+
+// GetCondition : Get data for conditions check
+func (h *Handler) GetCondition(c echo.Context) error {
+	pid := c.Param("pid")
+	event := c.Param("event")
+	Conditions := h.DB.C("conditions")
+	conditions := models.Conditions{}
+	queryGetData := bson.M{}
+
+	if bson.IsObjectIdHex(pid) {
+		queryGetData["pid"] = bson.ObjectIdHex(pid)
+	} else {
+		sErr := response.NewErrorInfo("Canopus - Response: [GetCondition] function", "Invalid PID format", "app/api/condition.go")
+		lib.GenLog(c, "", response.BuildError(sErr, status.InternalServerError), "Error Log")
+		return c.JSON(http.StatusInternalServerError, response.BuildError(sErr, status.InternalServerError))
+	}
+
+	if event != "" {
+		queryGetData["event"] = event
+	}
+
+	err := Conditions.Find(queryGetData).One(&conditions)
+	if err != nil {
+		// Database error
+		sErr := response.NewErrorInfo("Canopus - Response: [GetCondition] function", "Database Error", "app/api/condition.go")
+		lib.GenLog(c, "", response.BuildError(sErr, status.InternalServerError), "Error Log")
+		return c.JSON(http.StatusInternalServerError, response.BuildError(sErr, status.InternalServerError))
+	}
+
+	lib.GenLog(c, "", response.BuildSuccess(conditions, status.OKSuccess), "Response Log")
+	return c.JSON(http.StatusOK, response.BuildSuccess(conditions, status.OKSuccess))
+}
