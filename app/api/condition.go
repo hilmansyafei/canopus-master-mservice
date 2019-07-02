@@ -12,8 +12,8 @@ import (
 	"github.com/labstack/echo"
 )
 
-// GetByPID : Get data from conditions collection
-func (h *Handler) GetByPID(c echo.Context) error {
+// GetConditionByPID : Get data from conditions collection
+func (h *Handler) GetConditionByPID(c echo.Context) error {
 	pid := c.Param("pid")
 	Conditions := h.DB.C("conditions")
 	conditions := []models.Conditions{}
@@ -39,8 +39,8 @@ func (h *Handler) GetByPID(c echo.Context) error {
 	return c.JSON(http.StatusOK, response.BuildSuccess(conditions, status.OKSuccess))
 }
 
-// GetByID : Get data from conditions collection
-func (h *Handler) GetByID(c echo.Context) error {
+// GetConditionByID : Get data from conditions collection
+func (h *Handler) GetConditionByID(c echo.Context) error {
 	id := c.Param("id")
 	Conditions := h.DB.C("conditions")
 	conditions := models.Conditions{}
@@ -66,8 +66,8 @@ func (h *Handler) GetByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, response.BuildSuccess(conditions, status.OKSuccess))
 }
 
-// GetAll : Get data from conditions collection
-func (h *Handler) GetAll(c echo.Context) error {
+// GetConditionAll : Get data from conditions collection
+func (h *Handler) GetConditionAll(c echo.Context) error {
 	Conditions := h.DB.C("conditions")
 	conditions := []models.Conditions{}
 

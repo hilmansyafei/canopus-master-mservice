@@ -30,15 +30,16 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:f077e08721f14a229bc115e513de51ad7db3080b9973b02b48065552a92cf7d4"
+  digest = "1:aa6a3029ccf3953173f9d23f33aab59ff2756d2ab1fa2297114b2eb77bea1223"
   name = "github.com/hilmansyafei/go-package"
   packages = [
+    "database/mongo",
     "modules",
     "response",
     "status",
   ]
   pruneopts = "UT"
-  revision = "c0221534a0ad22ce03f6566e787731d0a46fdf75"
+  revision = "dd7407854260bc4b2b0b04e633ec29e97f677e26"
 
 [[projects]]
   digest = "1:31e761d97c76151dde79e9d28964a812c46efc5baee4085b86f68f0c654450de"
@@ -202,14 +203,6 @@
   version = "v1.0.1"
 
 [[projects]]
-  digest = "1:002f0fdf9c0fe63c2b6fd1b6498c6c16ee9b3382d15c0348c2789801901dd422"
-  name = "github.com/zebresel-com/mongodm"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "cbfd0891ca28de93d3abd48626da2fe84f62644f"
-  version = "v2.0.1"
-
-[[projects]]
   branch = "master"
   digest = "1:9ebbac90dda5bf921f6243b64d5abd0674ada63cdee056ff671f8658a00034ab"
   name = "golang.org/x/crypto"
@@ -288,12 +281,12 @@
   analyzer-version = 1
   input-imports = [
     "github.com/fsnotify/fsnotify",
+    "github.com/hilmansyafei/go-package/database/mongo",
     "github.com/hilmansyafei/go-package/modules",
     "github.com/hilmansyafei/go-package/response",
     "github.com/hilmansyafei/go-package/status",
     "github.com/labstack/echo",
     "github.com/spf13/viper",
-    "github.com/zebresel-com/mongodm",
     "gopkg.in/mgo.v2",
     "gopkg.in/mgo.v2/bson",
   ]

@@ -14,10 +14,11 @@ func Gen(env *api.Handler) *echo.Echo {
 
 	//Add router
 	h := &api.Handler{DB: env.DB}
-	e.GET("/getByPID/:pid", h.GetByPID, middleware.Track)
-	e.GET("/getByID/:id", h.GetByID, middleware.Track)
-	e.GET("/getAll", h.GetAll, middleware.Track)
+	e.GET("/getConditionByPID/:pid", h.GetConditionByPID, middleware.Track)
+	e.GET("/getConditionByID/:id", h.GetConditionByID, middleware.Track)
+	e.GET("/getConditionAll", h.GetConditionAll, middleware.Track)
 	e.GET("/getCondition/:pid/:event", h.GetCondition, middleware.Track)
+	e.GET("/getMerchantByID/:mid", h.GetMerchantByID, middleware.Track)
 
 	return e
 }
