@@ -18,7 +18,7 @@ func Gen(env *api.Handler) *echo.Echo {
 	e.GET("/getConditionByID/:id", h.GetConditionByID, middleware.Track)
 	e.GET("/getConditionAll", h.GetConditionAll, middleware.Track)
 	e.GET("/getCondition/:pid/:event", h.GetCondition, middleware.Track)
-	e.GET("/getMerchantByID/:mid", h.GetMerchantByID, middleware.Track)
+	e.GET("/getMerchantByID/:mid", h.GetMerchantByIDHandler, middleware.Track)
 
 	return e
 }

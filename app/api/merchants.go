@@ -3,23 +3,17 @@ package api
 import (
 	"net/http"
 
-	"github.com/hilmansyafei/canopus-master-mservice/database/models"
 	"github.com/hilmansyafei/canopus-master-mservice/lib"
-	"gopkg.in/mgo.v2/bson"
 
 	"github.com/hilmansyafei/go-package/response"
 	"github.com/hilmansyafei/go-package/status"
 	"github.com/labstack/echo"
 )
 
-// GetMerchantByID : Get data from merchant collection
-func (h *Handler) GetMerchantByID(c echo.Context) error {
+// GetMerchantByIDHandler : api handler.
+func (h *Handler) GetMerchantByIDHandler(c echo.Context) error {
 	_id := c.Param("mid")
-	Merchant := h.DB.C("merchants")
-	merchants := models.Merchants{}
-	queryGetData := bson.M{"_id": bson.ObjectIdHex(_id)}
-
-	err := Merchant.Find(queryGetData).One(&merchants)
+	merchants, err := GetMerchantByID(_id, h)
 	if err != nil {
 		// Database error
 		sErr := response.NewErrorInfo("Canopus - Response: [GetMerchantByMID] function", "Database Error", "app/api/merchant.go")
