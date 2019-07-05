@@ -1,3 +1,4 @@
 .env
 storages/logs
 vendor
+config.yaml
