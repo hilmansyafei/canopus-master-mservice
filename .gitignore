@@ -1,3 +1,5 @@
 .env
 storages/logs
 vendor
+.DS_Store
+.vscode
