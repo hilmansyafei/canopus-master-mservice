@@ -3,3 +3,4 @@ storages/logs
 vendor
 .DS_Store
 .vscode
+config.yaml

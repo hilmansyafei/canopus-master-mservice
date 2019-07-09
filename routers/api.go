@@ -20,5 +20,8 @@ func Gen(env *api.Handler) *echo.Echo {
 	e.GET("/getCondition/:pid/:event", h.GetCondition, middleware.Track)
 	e.GET("/getMerchantByID/:mid", h.GetMerchantByIDHandler, middleware.Track)
 
+	// Files Routes.
+	e.GET("/getPathFile/:mid", h.GetPathFileHandler, middleware.Track)
+
 	return e
 }
