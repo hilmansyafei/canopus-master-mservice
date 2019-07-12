@@ -64,3 +64,11 @@
 [[constraint]]
   branch = "v2"
   name = "gopkg.in/mgo.v2"
+
+[[constraint]]
+  name = "go.uber.org/zap"
+  version = "1.10.0"
+
+[[constraint]]
+  name = "github.com/efimovalex/stackerr"
+  version = "1.0.2"

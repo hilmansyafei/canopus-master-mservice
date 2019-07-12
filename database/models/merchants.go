@@ -22,3 +22,36 @@ type Merchants struct {
 	NotificationURLs interface{}   `json:"notificationURLs" bson:"notificationURLs"`
 	WhitelistIP      interface{}   `json:"whitelistIP" bson:"whitelistIP"`
 }
+
+// TableName : return table name
+func (Merchants) TableName() string {
+	return "merchants"
+}
+
+// ToModel : convert to model
+func (Merchants) ToModel(data interface{}, model *Merchants) error {
+	bsonBytes, err := bson.Marshal(data.(bson.M))
+	if err != nil {
+		return err
+	}
+	err = bson.Unmarshal(bsonBytes, &model)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ToModels : convert to model array
+func (Merchants) ToModels(data interface{}, model *[]Merchants) error {
+	bsonBytes, err := bson.Marshal(data.(bson.M))
+	if err != nil {
+		return err
+	}
+	err = bson.Unmarshal(bsonBytes, &model)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

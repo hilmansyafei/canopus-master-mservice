@@ -8,12 +8,11 @@ import (
 )
 
 //Gen function generate routing
-func Gen(env *api.Handler) *echo.Echo {
+func Gen(h *api.Handler) *echo.Echo {
 	//Initiate router
 	e := echo.New()
 
 	//Add router
-	h := &api.Handler{DB: env.DB}
 	e.GET("/getConditionByPID/:pid", h.GetConditionByPID, middleware.Track)
 	e.GET("/getConditionByID/:id", h.GetConditionByID, middleware.Track)
 	e.GET("/getConditionAll", h.GetConditionAll, middleware.Track)
@@ -22,6 +21,8 @@ func Gen(env *api.Handler) *echo.Echo {
 
 	// Files Routes.
 	e.GET("/getPathFile/:mid", h.GetPathFileHandler, middleware.Track)
+
+	e.HTTPErrorHandler = middleware.CustomHTTPErrorHandler
 
 	return e
 }

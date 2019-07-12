@@ -17,3 +17,27 @@ type Conditions struct {
 	Settings         []interface{} `json:"settings" bson:"settings"`
 	Revisions        []interface{} `json:"revisions" bson:"revisions"`
 }
+
+// TableName : return table name
+func (Conditions) TableName() string {
+	return "conditions"
+}
+
+// ToModel : convert to model
+func (Conditions) ToModel(data interface{}, model *Conditions) error {
+	bsonBytes, err := bson.Marshal(data.(bson.M))
+	if err != nil {
+		return err
+	}
+	err = bson.Unmarshal(bsonBytes, &model)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ToModels : convert to model array
+func (Conditions) ToModels(data []interface{}, model *[]Conditions) error {
+	return nil
+}

@@ -12,7 +12,7 @@ import (
 // data["type"] : private / public
 func GetPathFile(data map[string]string, h *Handler) (models.Files, error) {
 	// Get merchant data.
-	merchants, err := GetMerchantByMID(data["mid"], h)
+	merchants, err := GetMerchantByMID(data["mid"])
 	// Define files struct.
 	files := models.Files{}
 	// Check error.
@@ -34,20 +34,23 @@ func GetPathFile(data map[string]string, h *Handler) (models.Files, error) {
 		return files, errors.New("File type not found")
 	}
 	// Get path uri.
-	Path, errPath := GetPathFileByID(idFile, h)
+	Path, errPath := GetPathFileByID(idFile)
 	return Path, errPath
 }
 
 // GetPathFileByID : get path file by ID
-func GetPathFileByID(id string, h *Handler) (models.Files, error) {
-	// Get connection files.
-	File := h.DB.C("files")
+func GetPathFileByID(id string) (models.Files, error) {
+	var getData interface{}
 	// Define files struct.
 	files := models.Files{}
 	// Check valid id.
 	if bson.IsObjectIdHex(id) {
 		queryGetData := bson.M{"_id": bson.ObjectIdHex(id)}
-		err := File.Find(queryGetData).One(&files)
+		err := MongoProvider.GetOne(files.TableName(), queryGetData, &getData)
+		err = files.ToModel(getData, &files)
+		if err != nil {
+			return files, err
+		}
 		// Return files error.
 		return files, err
 	}

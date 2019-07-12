@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/hilmansyafei/canopus-master-mservice/lib"
+	"github.com/ztrue/tracerr"
+
 	"github.com/hilmansyafei/go-package/response"
 	"github.com/hilmansyafei/go-package/status"
 	"github.com/labstack/echo"
@@ -26,11 +27,17 @@ func (h *Handler) GetPathFileHandler(c echo.Context) error {
 	path, err := GetPathFile(dataQuery, h)
 	if err != nil {
 		// Database error.
-		sErr := response.NewErrorInfo("Canopus - Response: [GetPathFileHandler] function", err.Error(), "app/api/files.go")
-		lib.GenLog(c, "", response.BuildError(sErr, status.InternalServerError), "Error Log")
-		return c.JSON(http.StatusInternalServerError, response.BuildError(sErr, status.InternalServerError))
+		sErr := response.BuildError(response.NewErrorInfo(
+			"Canopus - Response: [GetPathFileHandler] function",
+			"Error get path file",
+			"app/api/files.go"), status.InternalServerError)
+		GenLog(c, "", sErr, "Error Log")
+		c.JSON(http.StatusInternalServerError, sErr)
+		return tracerr.Wrap(err)
 	}
 	// Return valid response.
-	lib.GenLog(c, "", response.BuildSuccess(path, status.OKSuccess), "Response Log")
-	return c.JSON(http.StatusOK, response.BuildSuccess(path, status.OKSuccess))
+	sSuccess := response.BuildSuccess(path, status.OKSuccess)
+	GenLog(c, "", sSuccess, "Response Log")
+	c.JSON(http.StatusOK, sSuccess)
+	return nil
 }

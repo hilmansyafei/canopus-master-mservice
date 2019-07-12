@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 
-	"github.com/hilmansyafei/canopus-master-mservice/lib"
+	"github.com/ztrue/tracerr"
 
 	"github.com/hilmansyafei/go-package/response"
 	"github.com/hilmansyafei/go-package/status"
@@ -13,14 +13,20 @@ import (
 // GetMerchantByIDHandler : api handler.
 func (h *Handler) GetMerchantByIDHandler(c echo.Context) error {
 	_id := c.Param("mid")
-	merchants, err := GetMerchantByID(_id, h)
+	merchants, err := GetMerchantByID(_id)
 	if err != nil {
 		// Database error
-		sErr := response.NewErrorInfo("Canopus - Response: [GetMerchantByMID] function", "Database Error", "app/api/merchant.go")
-		lib.GenLog(c, "", response.BuildError(sErr, status.InternalServerError), "Error Log")
-		return c.JSON(http.StatusInternalServerError, response.BuildError(sErr, status.InternalServerError))
+		sErr := response.BuildError(response.NewErrorInfo(
+			"Canopus - Response: [GetMerchantByMID] function",
+			"Database Error",
+			"app/api/merchant.go"), status.InternalServerError)
+		GenLog(c, "", sErr, "Error Log")
+		c.JSON(http.StatusInternalServerError, sErr)
+		return tracerr.Wrap(err)
 	}
 
-	lib.GenLog(c, "", response.BuildSuccess(merchants, status.OKSuccess), "Response Log")
-	return c.JSON(http.StatusOK, response.BuildSuccess(merchants, status.OKSuccess))
+	sSuccess := response.BuildSuccess(merchants, status.OKSuccess)
+	GenLog(c, "", sSuccess, "Response Log")
+	c.JSON(http.StatusOK, sSuccess)
+	return nil
 }

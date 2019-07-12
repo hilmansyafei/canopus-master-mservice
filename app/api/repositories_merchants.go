@@ -1,29 +1,31 @@
 package api
 
 import (
-	"errors"
-
 	"github.com/hilmansyafei/canopus-master-mservice/database/models"
 	"gopkg.in/mgo.v2/bson"
 )
 
 // GetMerchantByID : Get data from merchant collection by ID
-func GetMerchantByID(id string, h *Handler) (models.Merchants, error) {
-	Merchant := h.DB.C("merchants")
+func GetMerchantByID(id string) (models.Merchants, error) {
+	var getData interface{}
 	merchants := models.Merchants{}
-	if bson.IsObjectIdHex(id) {
-		queryGetData := bson.M{"_id": bson.ObjectIdHex(id)}
-		err := Merchant.Find(queryGetData).One(&merchants)
+	err := MongoProvider.GetByID(merchants.TableName(), bson.ObjectIdHex(id), &getData)
+	err = merchants.ToModel(getData, &merchants)
+	if err != nil {
 		return merchants, err
 	}
-	return merchants, errors.New("Invalid ID")
+	return merchants, nil
 }
 
 // GetMerchantByMID : Get data from merchant collection by MID
-func GetMerchantByMID(mid string, h *Handler) (models.Merchants, error) {
-	Merchant := h.DB.C("merchants")
+func GetMerchantByMID(mid string) (models.Merchants, error) {
+	var getData interface{}
 	merchants := models.Merchants{}
 	queryGetData := bson.M{"mid": mid}
-	err := Merchant.Find(queryGetData).One(&merchants)
-	return merchants, err
+	err := MongoProvider.GetOne(merchants.TableName(), queryGetData, &getData)
+	err = merchants.ToModel(getData, &merchants)
+	if err != nil {
+		return merchants, err
+	}
+	return merchants, nil
 }

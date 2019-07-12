@@ -1,10 +1,12 @@
 package api
 
 import (
+	"errors"
 	"net/http"
 
+	"github.com/ztrue/tracerr"
+
 	"github.com/hilmansyafei/canopus-master-mservice/database/models"
-	"github.com/hilmansyafei/canopus-master-mservice/lib"
 	"gopkg.in/mgo.v2/bson"
 
 	"github.com/hilmansyafei/go-package/response"
@@ -15,102 +17,123 @@ import (
 // GetConditionByPID : Get data from conditions collection
 func (h *Handler) GetConditionByPID(c echo.Context) error {
 	pid := c.Param("pid")
-	Conditions := h.DB.C("conditions")
-	conditions := []models.Conditions{}
-	queryGetData := bson.M{}
+	var conditions []interface{}
 
-	if bson.IsObjectIdHex(pid) {
-		queryGetData["pid"] = bson.ObjectIdHex(pid)
-	} else {
-		sErr := response.NewErrorInfo("Canopus - Response: [GetByPID] function", "Invalid PID format", "app/api/condition.go")
-		lib.GenLog(c, "", response.BuildError(sErr, status.InternalServerError), "Error Log")
-		return c.JSON(http.StatusInternalServerError, response.BuildError(sErr, status.InternalServerError))
+	if !bson.IsObjectIdHex(pid) {
+		sErr := response.BuildError(response.NewErrorInfo(
+			"Canopus - Response: [GetByPID] function",
+			"Invalid PID format",
+			"app/api/condition.go"), status.InternalServerError)
+		GenLog(c, "", sErr, "Error Log")
+		c.JSON(http.StatusInternalServerError, sErr)
+		return tracerr.Wrap(errors.New("Invalid PID"))
 	}
 
-	err := Conditions.Find(queryGetData).All(&conditions)
+	err := GetConditionByPID(pid, &conditions)
 	if err != nil {
 		// Database error
-		sErr := response.NewErrorInfo("Canopus - Response: [GetByPID] function", "Database Error", "app/api/condition.go")
-		lib.GenLog(c, "", response.BuildError(sErr, status.InternalServerError), "Error Log")
-		return c.JSON(http.StatusInternalServerError, response.BuildError(sErr, status.InternalServerError))
+		sErr := response.BuildError(response.NewErrorInfo(
+			"Canopus - Response: [GetByPID] function",
+			"Database Error",
+			"app/api/condition.go"), status.InternalServerError)
+		GenLog(c, "", sErr, "Error Log")
+		c.JSON(http.StatusInternalServerError, sErr)
+		return tracerr.Wrap(err)
 	}
 
-	lib.GenLog(c, "", response.BuildSuccess(conditions, status.OKSuccess), "Response Log")
-	return c.JSON(http.StatusOK, response.BuildSuccess(conditions, status.OKSuccess))
+	sSuccess := response.BuildSuccess(conditions, status.OKSuccess)
+	GenLog(c, "", sSuccess, "Response Log")
+	c.JSON(http.StatusOK, sSuccess)
+	return nil
 }
 
 // GetConditionByID : Get data from conditions collection
 func (h *Handler) GetConditionByID(c echo.Context) error {
 	id := c.Param("id")
-	Conditions := h.DB.C("conditions")
 	conditions := models.Conditions{}
-	queryGetData := bson.M{}
 
-	if bson.IsObjectIdHex(id) {
-		queryGetData["_id"] = bson.ObjectIdHex(id)
-	} else {
-		sErr := response.NewErrorInfo("Canopus - Response: [GetByID] function", "Invalid ID format", "app/api/condition.go")
-		lib.GenLog(c, "", response.BuildError(sErr, status.InternalServerError), "Error Log")
-		return c.JSON(http.StatusInternalServerError, response.BuildError(sErr, status.InternalServerError))
+	if !bson.IsObjectIdHex(id) {
+		sErr := response.BuildError(response.NewErrorInfo(
+			"Canopus - Response: [GetByID] function",
+			"Invalid ID format",
+			"app/api/condition.go"), status.InternalServerError)
+		GenLog(c, "", sErr, "Error Log")
+		c.JSON(http.StatusInternalServerError, sErr)
+		return tracerr.Wrap(errors.New("Invalid ID format"))
 	}
 
-	err := Conditions.Find(queryGetData).One(&conditions)
+	err := GetConditionByID(bson.ObjectIdHex(id), &conditions)
 	if err != nil {
 		// Database error
-		sErr := response.NewErrorInfo("Canopus - Response: [GetByID] function", "Database Error", "app/api/condition.go")
-		lib.GenLog(c, "", response.BuildError(sErr, status.InternalServerError), "Error Log")
-		return c.JSON(http.StatusInternalServerError, response.BuildError(sErr, status.InternalServerError))
+		sErr := response.BuildError(response.NewErrorInfo(
+			"Canopus - Response: [GetByID] function",
+			"Database Error",
+			"app/api/condition.go"), status.InternalServerError)
+		GenLog(c, "", sErr, "Error Log")
+		c.JSON(http.StatusInternalServerError, sErr)
+		return tracerr.Wrap(err)
 	}
 
-	lib.GenLog(c, "", response.BuildSuccess(conditions, status.OKSuccess), "Response Log")
-	return c.JSON(http.StatusOK, response.BuildSuccess(conditions, status.OKSuccess))
+	sSuccess := response.BuildSuccess(conditions, status.OKSuccess)
+	GenLog(c, "", sSuccess, "Response Log")
+	return c.JSON(http.StatusOK, sSuccess)
 }
 
 // GetConditionAll : Get data from conditions collection
 func (h *Handler) GetConditionAll(c echo.Context) error {
-	Conditions := h.DB.C("conditions")
-	conditions := []models.Conditions{}
-
-	err := Conditions.Find(nil).All(&conditions)
+	var conditions []interface{}
+	err := GetAllCondition(&conditions)
 	if err != nil {
 		// Database error
-		sErr := response.NewErrorInfo("Canopus - Response: [GetAll] function", "Database Error", "app/api/condition.go")
-		lib.GenLog(c, "", response.BuildError(sErr, status.InternalServerError), "Error Log")
-		return c.JSON(http.StatusInternalServerError, response.BuildError(sErr, status.InternalServerError))
+		sErr := response.BuildError(response.NewErrorInfo(
+			"Canopus - Response: [GetAll] function",
+			"Database Error",
+			"app/api/condition.go"), status.InternalServerError)
+		GenLog(c, "", sErr, "Error Log")
+		c.JSON(http.StatusInternalServerError, sErr)
+		return tracerr.Wrap(err)
 	}
 
-	lib.GenLog(c, "", response.BuildSuccess(conditions, status.OKSuccess), "Response Log")
-	return c.JSON(http.StatusOK, response.BuildSuccess(conditions, status.OKSuccess))
+	sSuccess := response.BuildSuccess(conditions, status.OKSuccess)
+	GenLog(c, "", sSuccess, "Response Log")
+	c.JSON(http.StatusOK, sSuccess)
+	return nil
 }
 
 // GetCondition : Get data for conditions check
 func (h *Handler) GetCondition(c echo.Context) error {
 	pid := c.Param("pid")
 	event := c.Param("event")
-	Conditions := h.DB.C("conditions")
 	conditions := models.Conditions{}
 	queryGetData := bson.M{}
 
 	if bson.IsObjectIdHex(pid) {
 		queryGetData["pid"] = bson.ObjectIdHex(pid)
 	} else {
-		sErr := response.NewErrorInfo("Canopus - Response: [GetCondition] function", "Invalid PID format", "app/api/condition.go")
-		lib.GenLog(c, "", response.BuildError(sErr, status.InternalServerError), "Error Log")
-		return c.JSON(http.StatusInternalServerError, response.BuildError(sErr, status.InternalServerError))
+		sErr := response.BuildError(response.NewErrorInfo(
+			"Canopus - Response: [GetCondition] function",
+			"Invalid PID format",
+			"app/api/condition.go"), status.InternalServerError)
+		GenLog(c, "", sErr, "Error Log")
+		return c.JSON(http.StatusInternalServerError, sErr)
 	}
 
 	if event != "" {
 		queryGetData["event"] = event
 	}
 
-	err := Conditions.Find(queryGetData).One(&conditions)
+	err := GetConditionEvent(queryGetData, &conditions)
 	if err != nil {
 		// Database error
-		sErr := response.NewErrorInfo("Canopus - Response: [GetCondition] function", "Database Error", "app/api/condition.go")
-		lib.GenLog(c, "", response.BuildError(sErr, status.InternalServerError), "Error Log")
-		return c.JSON(http.StatusInternalServerError, response.BuildError(sErr, status.InternalServerError))
+		sErr := response.BuildError(response.NewErrorInfo(
+			"Canopus - Response: [GetCondition] function",
+			"Database Error",
+			"app/api/condition.go"), status.InternalServerError)
+		GenLog(c, "", sErr, "Error Log")
+		return c.JSON(http.StatusInternalServerError, sErr)
 	}
 
-	lib.GenLog(c, "", response.BuildSuccess(conditions, status.OKSuccess), "Response Log")
-	return c.JSON(http.StatusOK, response.BuildSuccess(conditions, status.OKSuccess))
+	sSuccess := response.BuildSuccess(conditions, status.OKSuccess)
+	GenLog(c, "", sSuccess, "Response Log")
+	return c.JSON(http.StatusOK, sSuccess)
 }
