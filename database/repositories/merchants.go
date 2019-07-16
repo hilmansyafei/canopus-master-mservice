@@ -1,4 +1,4 @@
-package api
+package repositories
 
 import (
 	"github.com/hilmansyafei/canopus-master-mservice/database/models"
@@ -6,10 +6,10 @@ import (
 )
 
 // GetMerchantByID : Get data from merchant collection by ID
-func GetMerchantByID(id string) (models.Merchants, error) {
+func (Hnd Env) GetMerchantByID(id string) (models.Merchants, error) {
 	var getData interface{}
 	merchants := models.Merchants{}
-	err := MongoProvider.GetByID(merchants.TableName(), bson.ObjectIdHex(id), &getData)
+	err := Hnd.Mp.GetByID(merchants.TableName(), bson.ObjectIdHex(id), &getData)
 	err = merchants.ToModel(getData, &merchants)
 	if err != nil {
 		return merchants, err
@@ -18,11 +18,11 @@ func GetMerchantByID(id string) (models.Merchants, error) {
 }
 
 // GetMerchantByMID : Get data from merchant collection by MID
-func GetMerchantByMID(mid string) (models.Merchants, error) {
+func (Hnd Env) GetMerchantByMID(mid string) (models.Merchants, error) {
 	var getData interface{}
 	merchants := models.Merchants{}
 	queryGetData := bson.M{"mid": mid}
-	err := MongoProvider.GetOne(merchants.TableName(), queryGetData, &getData)
+	err := Hnd.Mp.GetOne(merchants.TableName(), queryGetData, &getData)
 	err = merchants.ToModel(getData, &merchants)
 	if err != nil {
 		return merchants, err

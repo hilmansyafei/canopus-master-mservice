@@ -1,4 +1,4 @@
-package api
+package repositories
 
 import (
 	"github.com/hilmansyafei/canopus-master-mservice/database/models"
@@ -6,9 +6,9 @@ import (
 )
 
 // GetConditionByPID : get condition by PID
-func GetConditionByPID(pid string, conditions *[]interface{}) error {
+func (Hnd Env) GetConditionByPID(pid string, conditions *[]interface{}) error {
 	queryGetData := bson.M{"pid": bson.ObjectIdHex(pid)}
-	err := MongoProvider.Get("conditions", queryGetData, conditions)
+	err := Hnd.Mp.Get("conditions", queryGetData, conditions)
 	if err != nil {
 		return err
 	}
@@ -16,9 +16,9 @@ func GetConditionByPID(pid string, conditions *[]interface{}) error {
 }
 
 // GetConditionByID : get condition by ID
-func GetConditionByID(id bson.ObjectId, condition *models.Conditions) error {
+func (Hnd Env) GetConditionByID(id bson.ObjectId, condition *models.Conditions) error {
 	var getData interface{}
-	err := MongoProvider.GetByID("conditions", id, &getData)
+	err := Hnd.Mp.GetByID("conditions", id, &getData)
 	if err != nil {
 		return err
 	}
@@ -31,8 +31,8 @@ func GetConditionByID(id bson.ObjectId, condition *models.Conditions) error {
 }
 
 // GetAllCondition : get all condition
-func GetAllCondition(conditions *[]interface{}) error {
-	err := MongoProvider.GetAll("conditions", conditions)
+func (Hnd Env) GetAllCondition(conditions *[]interface{}) error {
+	err := Hnd.Mp.GetAll("conditions", conditions)
 	if err != nil {
 		return err
 	}
@@ -40,9 +40,9 @@ func GetAllCondition(conditions *[]interface{}) error {
 }
 
 // GetConditionEvent : get condition by PID and event
-func GetConditionEvent(query bson.M, conditions *models.Conditions) error {
+func (Hnd Env) GetConditionEvent(query bson.M, conditions *models.Conditions) error {
 	var getData interface{}
-	err := MongoProvider.GetOne("conditions", query, &getData)
+	err := Hnd.Mp.GetOne("conditions", query, &getData)
 	if err != nil {
 		return err
 	}

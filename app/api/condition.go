@@ -29,7 +29,7 @@ func (h *Handler) GetConditionByPID(c echo.Context) error {
 		return tracerr.Wrap(errors.New("Invalid PID"))
 	}
 
-	err := GetConditionByPID(pid, &conditions)
+	err := h.Repositories.GetConditionByPID(pid, &conditions)
 	if err != nil {
 		// Database error
 		sErr := response.BuildError(response.NewErrorInfo(
@@ -62,7 +62,7 @@ func (h *Handler) GetConditionByID(c echo.Context) error {
 		return tracerr.Wrap(errors.New("Invalid ID format"))
 	}
 
-	err := GetConditionByID(bson.ObjectIdHex(id), &conditions)
+	err := h.Repositories.GetConditionByID(bson.ObjectIdHex(id), &conditions)
 	if err != nil {
 		// Database error
 		sErr := response.BuildError(response.NewErrorInfo(
@@ -82,7 +82,7 @@ func (h *Handler) GetConditionByID(c echo.Context) error {
 // GetConditionAll : Get data from conditions collection
 func (h *Handler) GetConditionAll(c echo.Context) error {
 	var conditions []interface{}
-	err := GetAllCondition(&conditions)
+	err := h.Repositories.GetAllCondition(&conditions)
 	if err != nil {
 		// Database error
 		sErr := response.BuildError(response.NewErrorInfo(
@@ -122,7 +122,7 @@ func (h *Handler) GetCondition(c echo.Context) error {
 		queryGetData["event"] = event
 	}
 
-	err := GetConditionEvent(queryGetData, &conditions)
+	err := h.Repositories.GetConditionEvent(queryGetData, &conditions)
 	if err != nil {
 		// Database error
 		sErr := response.BuildError(response.NewErrorInfo(

@@ -6,6 +6,7 @@ import (
 
 	"github.com/hilmansyafei/canopus-master-mservice/app/api"
 	"github.com/hilmansyafei/canopus-master-mservice/config"
+	"github.com/hilmansyafei/canopus-master-mservice/database/repositories"
 	"github.com/hilmansyafei/canopus-master-mservice/routers"
 	"github.com/hilmansyafei/go-package/database/mongo"
 	"github.com/hilmansyafei/go-package/modules"
@@ -31,6 +32,11 @@ func main() {
 
 func measure(lP modules.LogProvider, mP mongo.MongoProvider) *api.Handler {
 	api.LogGlobal = lP
-	api.MongoProvider = mP
-	return &api.Handler{}
+	repoProvider := repositories.Env{
+		Mp: mP,
+	}
+	return &api.Handler{
+		MongoProvider: mP,
+		Repositories:  repoProvider,
+	}
 }

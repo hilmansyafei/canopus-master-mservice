@@ -13,7 +13,7 @@ import (
 // GetMerchantByIDHandler : api handler.
 func (h *Handler) GetMerchantByIDHandler(c echo.Context) error {
 	_id := c.Param("mid")
-	merchants, err := GetMerchantByID(_id)
+	merchants, err := h.Repositories.GetMerchantByID(_id)
 	if err != nil {
 		// Database error
 		sErr := response.BuildError(response.NewErrorInfo(

@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/hilmansyafei/canopus-master-mservice/database/repositories"
 	"github.com/hilmansyafei/go-package/database/mongo"
 	"github.com/hilmansyafei/go-package/modules"
 	"github.com/hilmansyafei/go-package/status"
@@ -14,11 +15,11 @@ var LogGlobal modules.LogProvider
 // ZapGlobal : global zap
 var ZapGlobal *zap.Logger
 
-// MongoProvider : global mongo
-var MongoProvider mongo.MongoProvider
-
-// Handler : hold data
-type Handler struct{}
+// Handler connection database
+type Handler struct {
+	MongoProvider mongo.MongoProvider
+	Repositories  repositories.Repositories
+}
 
 // GenLog : Generate general error
 func GenLog(c echo.Context, dataRequest interface{}, resp interface{}, info string) {
