@@ -26,7 +26,6 @@ func (Hnd Env) GetConditionByID(id bson.ObjectId, condition *models.Conditions) 
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
 
@@ -51,6 +50,5 @@ func (Hnd Env) GetConditionEvent(query bson.M, conditions *models.Conditions) er
 	if err != nil {
 		return err
 	}
-
 	return nil
 }

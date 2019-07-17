@@ -115,7 +115,8 @@ func (h *Handler) GetCondition(c echo.Context) error {
 			"Invalid PID format",
 			"app/api/condition.go"), status.InternalServerError)
 		GenLog(c, "", sErr, "Error Log")
-		return c.JSON(http.StatusInternalServerError, sErr)
+		c.JSON(http.StatusInternalServerError, sErr)
+		return tracerr.Wrap(errors.New("Invalid PID format"))
 	}
 
 	if event != "" {
@@ -124,16 +125,24 @@ func (h *Handler) GetCondition(c echo.Context) error {
 
 	err := h.Repositories.GetConditionEvent(queryGetData, &conditions)
 	if err != nil {
+		if err.Error() == "not found" {
+			sSuccess := response.BuildSuccess("Data Not Found", status.OKSuccess)
+			GenLog(c, "", sSuccess, "Response Log")
+			c.JSON(http.StatusNotFound, sSuccess)
+			return nil
+		}
 		// Database error
 		sErr := response.BuildError(response.NewErrorInfo(
 			"Canopus - Response: [GetCondition] function",
 			"Database Error",
 			"app/api/condition.go"), status.InternalServerError)
 		GenLog(c, "", sErr, "Error Log")
-		return c.JSON(http.StatusInternalServerError, sErr)
+		c.JSON(http.StatusInternalServerError, sErr)
+		return tracerr.Wrap(err)
 	}
 
 	sSuccess := response.BuildSuccess(conditions, status.OKSuccess)
 	GenLog(c, "", sSuccess, "Response Log")
-	return c.JSON(http.StatusOK, sSuccess)
+	c.JSON(http.StatusOK, sSuccess)
+	return nil
 }
