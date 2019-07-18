@@ -14,7 +14,7 @@ import (
 // CustomHTTPErrorHandler : custom error handling
 func CustomHTTPErrorHandler(err error, c echo.Context) {
 	start := time.Now()
-	microservice := "canopus-notification"
+	microservice := "canopus-master-service"
 	duration := time.Since(start).Seconds() * 1000
 	durationStr := strconv.FormatFloat(duration, 'f', -1, 64)
 
