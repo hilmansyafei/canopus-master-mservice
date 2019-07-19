@@ -10,6 +10,9 @@ func (Hnd Env) GetMerchantByID(id string) (models.Merchants, error) {
 	var getData interface{}
 	merchants := models.Merchants{}
 	err := Hnd.Mp.GetByID(merchants.TableName(), bson.ObjectIdHex(id), &getData)
+	if err != nil {
+		return merchants, err
+	}
 	err = merchants.ToModel(getData, &merchants)
 	if err != nil {
 		return merchants, err
@@ -23,9 +26,12 @@ func (Hnd Env) GetMerchantByMID(mid string) (models.Merchants, error) {
 	merchants := models.Merchants{}
 	queryGetData := bson.M{"mid": mid}
 	err := Hnd.Mp.GetOne(merchants.TableName(), queryGetData, &getData)
-	err = merchants.ToModel(getData, &merchants)
 	if err != nil {
 		return merchants, err
+	}
+	errMdl := merchants.ToModel(getData, &merchants)
+	if errMdl != nil {
+		return merchants, errMdl
 	}
 	return merchants, nil
 }

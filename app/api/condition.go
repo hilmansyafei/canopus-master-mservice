@@ -40,7 +40,12 @@ func (h *Handler) GetConditionByPID(c echo.Context) error {
 		c.JSON(http.StatusInternalServerError, sErr)
 		return tracerr.Wrap(err)
 	}
-
+	if conditions == nil {
+		sSuccess := response.BuildSuccess("Data Not Found", status.DataNotFound)
+		GenLog(c, "", sSuccess, "Response Log")
+		c.JSON(http.StatusNotFound, sSuccess)
+		return tracerr.Wrap(errors.New("Data Not Found"))
+	}
 	sSuccess := response.BuildSuccess(conditions, status.OKSuccess)
 	GenLog(c, "", sSuccess, "Response Log")
 	c.JSON(http.StatusOK, sSuccess)
@@ -64,6 +69,12 @@ func (h *Handler) GetConditionByID(c echo.Context) error {
 
 	err := h.Repositories.GetConditionByID(bson.ObjectIdHex(id), &conditions)
 	if err != nil {
+		if err.Error() == "not found" {
+			sSuccess := response.BuildSuccess("Data Not Found", status.DataNotFound)
+			GenLog(c, "", sSuccess, "Response Log")
+			c.JSON(http.StatusNotFound, sSuccess)
+			return tracerr.Wrap(err)
+		}
 		// Database error
 		sErr := response.BuildError(response.NewErrorInfo(
 			"Canopus - Response: [GetByID] function",
@@ -126,10 +137,10 @@ func (h *Handler) GetCondition(c echo.Context) error {
 	err := h.Repositories.GetConditionEvent(queryGetData, &conditions)
 	if err != nil {
 		if err.Error() == "not found" {
-			sSuccess := response.BuildSuccess("Data Not Found", status.OKSuccess)
+			sSuccess := response.BuildSuccess("Data Not Found", status.DataNotFound)
 			GenLog(c, "", sSuccess, "Response Log")
 			c.JSON(http.StatusNotFound, sSuccess)
-			return nil
+			return tracerr.Wrap(err)
 		}
 		// Database error
 		sErr := response.BuildError(response.NewErrorInfo(

@@ -13,11 +13,11 @@ func Gen(h *api.Handler) *echo.Echo {
 	e := echo.New()
 
 	//Add router
-	e.GET("/getConditionByPID/:pid", h.GetConditionByPID, middleware.Track)
-	e.GET("/getConditionByID/:id", h.GetConditionByID, middleware.Track)
-	e.GET("/getConditionAll", h.GetConditionAll, middleware.Track)
-	e.GET("/getCondition/:pid/:event", h.GetCondition, middleware.Track)
-	e.GET("/getMerchantByID/:mid", h.GetMerchantByIDHandler, middleware.Track)
+	e.GET("/conditionByPID/:pid", h.GetConditionByPID, middleware.Track)
+	e.GET("/conditionByID/:id", h.GetConditionByID, middleware.Track)
+	e.GET("/conditionAll", h.GetConditionAll, middleware.Track)
+	e.GET("/condition/:pid/:event", h.GetCondition, middleware.Track)
+	e.GET("/merchantByID/:mid", h.GetMerchantByIDHandler, middleware.Track)
 
 	// Files Routes.
 	e.GET("/getPathFile/:mid", h.GetPathFileHandler, middleware.Track)

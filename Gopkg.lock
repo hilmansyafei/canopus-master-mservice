@@ -30,21 +30,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:42528e21a19a2acb73b452dfc2e4a9aeeaea6dcdc9e9ee028aa44c74ae30a0f4"
-  name = "github.com/hilmansyafei/canopus-va-mservice"
-  packages = [
-    "app/api",
-    "app/middleware",
-    "config",
-    "database/models",
-    "routers",
-  ]
-  pruneopts = "UT"
-  revision = "5be6b0e697a5827e327f3a49c62ae767b635ef4c"
-
-[[projects]]
-  branch = "master"
-  digest = "1:ee037c0cef1503ad8ba41041752ad3d7a0b833f631936b1158690318c366dfec"
+  digest = "1:d76e0aa3b9e166d1b7c9059c22aa8dfd05ef2235dc49491017febd18311734fb"
   name = "github.com/hilmansyafei/go-package"
   packages = [
     "database/mongo",
@@ -53,7 +39,7 @@
     "status",
   ]
   pruneopts = "UT"
-  revision = "202d688bc9238f426ee94675f8f0458da93e1256"
+  revision = "78b347b07143883a4bcd039d97331e64dfa2d0ca"
 
 [[projects]]
   digest = "1:31e761d97c76151dde79e9d28964a812c46efc5baee4085b86f68f0c654450de"
@@ -350,9 +336,6 @@
   analyzer-version = 1
   input-imports = [
     "github.com/fsnotify/fsnotify",
-    "github.com/hilmansyafei/canopus-va-mservice/app/api",
-    "github.com/hilmansyafei/canopus-va-mservice/config",
-    "github.com/hilmansyafei/canopus-va-mservice/routers",
     "github.com/hilmansyafei/go-package/database/mongo",
     "github.com/hilmansyafei/go-package/modules",
     "github.com/hilmansyafei/go-package/response",
