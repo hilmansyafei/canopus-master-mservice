@@ -20,6 +20,8 @@ func main() {
 		Host:     config.App.AppConfig.String("host"),
 		Port:     config.App.AppConfig.String("dbport"),
 		Database: config.App.AppConfig.String("database"),
+		User:     config.App.AppConfig.String("username"),
+		Password: config.App.AppConfig.String("password"),
 	}
 	dbConn, err := mongo.New(configMongo)
 	if err != nil {
