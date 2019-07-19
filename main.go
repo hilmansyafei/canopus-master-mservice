@@ -17,9 +17,9 @@ func main() {
 	logInit, _ := modules.NewLogger(config.App.AppConfig.String("log_path"))
 	api.ZapGlobal, _ = zap.NewProduction()
 	configMongo := mongo.Configuration{
-		Host:     "127.0.0.1",
-		Port:     "27017",
-		Database: "va",
+		Host:     config.App.AppConfig.String("host"),
+		Port:     config.App.AppConfig.String("dbport"),
+		Database: config.App.AppConfig.String("database"),
 	}
 	dbConn, err := mongo.New(configMongo)
 	if err != nil {
@@ -27,7 +27,7 @@ func main() {
 	}
 	env := measure(logInit, dbConn)
 	e := routers.Gen(env)
-	e.Logger.Fatal(e.Start(":1322"))
+	e.Logger.Fatal(e.Start(":" + config.App.AppConfig.String("port")))
 }
 
 func measure(lP modules.LogProvider, mP mongo.MongoProvider) *api.Handler {
