@@ -41,17 +41,3 @@ func (Merchants) ToModel(data interface{}, model *Merchants) error {
 
 	return nil
 }
-
-// ToModels : convert to model array
-func (Merchants) ToModels(data interface{}, model *[]Merchants) error {
-	bsonBytes, err := bson.Marshal(data.(bson.M))
-	if err != nil {
-		return err
-	}
-	err = bson.Unmarshal(bsonBytes, &model)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}

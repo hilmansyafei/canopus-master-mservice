@@ -22,6 +22,8 @@ func Gen(h *api.Handler) *echo.Echo {
 	// Files Routes.
 	e.GET("/getPathFile/:mid", h.GetPathFileHandler, middleware.Track)
 
+	// Methods Routes.
+	e.GET("/methods/:id", h.GetMethodsByID, middleware.Track)
 	e.HTTPErrorHandler = middleware.CustomHTTPErrorHandler
 
 	return e

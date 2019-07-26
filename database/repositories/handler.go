@@ -15,6 +15,7 @@ type Repositories interface {
 	GetConditionByID(id bson.ObjectId, condition *models.Conditions) error
 	GetAllCondition(conditions *[]interface{}) error
 	GetConditionEvent(query bson.M, conditions *models.Conditions) error
+	GetMethodByID(id string, methods *models.Methods) error
 }
 
 // Env : ENV data

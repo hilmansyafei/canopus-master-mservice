@@ -2,8 +2,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/hilmansyafei/canopus-master-mservice/app/api"
 	"github.com/hilmansyafei/canopus-master-mservice/config"
 	"github.com/hilmansyafei/canopus-master-mservice/database/repositories"
@@ -25,7 +23,7 @@ func main() {
 	}
 	dbConn, err := mongo.New(configMongo)
 	if err != nil {
-		fmt.Errorf("Cannot connect to Mongo")
+		panic("Cannot connect to Mongo, ERROR : " + err.Error())
 	}
 	env := measure(logInit, dbConn)
 	e := routers.Gen(env)
