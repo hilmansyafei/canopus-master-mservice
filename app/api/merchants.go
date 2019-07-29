@@ -15,7 +15,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-// GetMerchantByIDHandler : api handler get data by Id from merchants collection
+// GetMerchantByIDHandler : api handler to get data by Id from merchants collection
 func (h *Handler) GetMerchantByIDHandler(c echo.Context) error {
 	_id := c.Param("id")
 	if !bson.IsObjectIdHex(_id) {
@@ -34,7 +34,7 @@ func (h *Handler) GetMerchantByIDHandler(c echo.Context) error {
 			sSuccess := response.BuildSuccess("Merchant Not Found", status.OKSuccess)
 			GenLog(c, "", sSuccess, "Response Log")
 			c.JSON(http.StatusNotFound, sSuccess)
-			return nil
+			return tracerr.Wrap(err)
 		}
 		// Database error
 		sErr := response.BuildError(response.NewErrorInfo(
@@ -97,7 +97,7 @@ func (h *Handler) CreateMerchant(c echo.Context) error {
 		Status:           statusInt32,
 		MID:              jsonMap["MID"].(string),
 		ENV:              thisEnv,
-		SecretKey:        jsonMap["SecretKey"].([]interface{}),
+		SecretKey:        jsonMap["SecretKey"].(string),
 		MerchantPubKey:   bson.ObjectIdHex(jsonMap["MerchantPubKey"].(string)),
 		PsaPrivKey:       bson.ObjectIdHex(jsonMap["PsaPrivKey"].(string)),
 		PsaPubKey:        bson.ObjectIdHex(jsonMap["PsaPubKey"].(string)), // bson.NewObjectId(),
@@ -144,7 +144,7 @@ func (h *Handler) UpdateMerchant(c echo.Context) error {
 		Status:           statusInt32,
 		MID:              jsonMap["MID"].(string),
 		ENV:              thisEnv,
-		SecretKey:        jsonMap["SecretKey"].([]interface{}),
+		SecretKey:        jsonMap["SecretKey"].(string),
 		MerchantPubKey:   bson.ObjectIdHex(jsonMap["MerchantPubKey"].(string)),
 		PsaPrivKey:       bson.ObjectIdHex(jsonMap["PsaPrivKey"].(string)),
 		PsaPubKey:        bson.ObjectIdHex(jsonMap["PsaPubKey"].(string)), // bson.NewObjectId(),
