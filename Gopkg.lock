@@ -2,6 +2,14 @@
 
 
 [[projects]]
+  digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
+  name = "github.com/davecgh/go-spew"
+  packages = ["spew"]
+  pruneopts = "UT"
+  revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
+  version = "v1.1.1"
+
+[[projects]]
   digest = "1:abeb38ade3f32a92943e5be54f55ed6d6e3b6602761d74b4aab4c9dd45c18abd"
   name = "github.com/fsnotify/fsnotify"
   packages = ["."]
@@ -30,7 +38,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:d76e0aa3b9e166d1b7c9059c22aa8dfd05ef2235dc49491017febd18311734fb"
+  digest = "1:520daa61516fac6aa45d52d98edf906056ed0694610c355678aa36604bcb65c3"
   name = "github.com/hilmansyafei/go-package"
   packages = [
     "database/mongo",
@@ -39,7 +47,7 @@
     "status",
   ]
   pruneopts = "UT"
-  revision = "78b347b07143883a4bcd039d97331e64dfa2d0ca"
+  revision = "444314cfcf70f4a9fdefcdbf142920affe1c76fb"
 
 [[projects]]
   digest = "1:31e761d97c76151dde79e9d28964a812c46efc5baee4085b86f68f0c654450de"
@@ -144,9 +152,20 @@
   version = "v0.8.1"
 
 [[projects]]
-  digest = "1:04457f9f6f3ffc5fea48e71d62f2ca256637dee0a04d710288e27e05c8b41976"
+  digest = "1:0028cb19b2e4c3112225cd871870f2d9cf49b9b4276531f03438a88e94be86fe"
+  name = "github.com/pmezard/go-difflib"
+  packages = ["difflib"]
+  pruneopts = "UT"
+  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
+  version = "v1.0.0"
+
+[[projects]]
+  digest = "1:31538f8d774e8bf2fb9380d2d2a82d69e206a7d0603946586926f1819c546c26"
   name = "github.com/sirupsen/logrus"
-  packages = ["."]
+  packages = [
+    ".",
+    "hooks/test",
+  ]
   pruneopts = "UT"
   revision = "839c75faf7f98a33d445d181f3018b5c3409a45e"
   version = "v1.4.2"
@@ -201,6 +220,14 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "75d898a42a940fbc854dfd1a4199eabdc00cf024"
+
+[[projects]]
+  digest = "1:972c2427413d41a1e06ca4897e8528e5a1622894050e2f527b38ddf0f343f759"
+  name = "github.com/stretchr/testify"
+  packages = ["assert"]
+  pruneopts = "UT"
+  revision = "ffdc059bfe9ce6a4e144ba849dbedead332c6053"
+  version = "v1.3.0"
 
 [[projects]]
   digest = "1:c468422f334a6b46a19448ad59aaffdfc0a36b08fdcc1c749a0b29b6453d7e59"
@@ -341,7 +368,9 @@
     "github.com/hilmansyafei/go-package/response",
     "github.com/hilmansyafei/go-package/status",
     "github.com/labstack/echo",
+    "github.com/sirupsen/logrus/hooks/test",
     "github.com/spf13/viper",
+    "github.com/stretchr/testify/assert",
     "github.com/ztrue/tracerr",
     "go.uber.org/zap",
     "gopkg.in/mgo.v2",
