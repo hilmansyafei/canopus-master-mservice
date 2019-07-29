@@ -35,3 +35,42 @@ func (Hnd Env) GetMerchantByMID(mid string) (models.Merchants, error) {
 	}
 	return merchants, nil
 }
+
+// GetAllMerchant : get all merchant
+func (Hnd Env) GetAllMerchant(merchants *[]interface{}) error {
+	err := Hnd.Mp.GetAll("merchants", merchants)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// CreateMerchant : Create data to merchant collection
+func (Hnd Env) CreateMerchant(data models.Merchants) error {
+	_, _, err := Hnd.Mp.Create("merchants", data, data)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// UpdateMerchant : Update data from merchant collection
+func (Hnd Env) UpdateMerchant(id string, data models.Merchants) error {
+	_id := bson.ObjectIdHex(id)
+	queryGetData := bson.M{"_id": _id}
+	err := Hnd.Mp.Update("merchants", queryGetData, data)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// DeleteMerchantByID : Delete data from merchant collection by ID
+func (Hnd Env) DeleteMerchantByID(id string) error {
+	merchants := models.Merchants{}
+	err := Hnd.Mp.DeleteID(merchants.TableName(), bson.ObjectIdHex(id))
+	if err != nil {
+		return err
+	}
+	return nil
+}
