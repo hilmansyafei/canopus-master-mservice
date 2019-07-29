@@ -14,7 +14,7 @@ type Merchants struct {
 	Status           int32         `json:"status" bson:"status"`
 	MID              string        `json:"mid" bson:"mid"`
 	ENV              int32         `json:"env" bson:"env"`
-	SecretKey        []interface{} `json:"secretKey" bson:"secretKey"`
+	SecretKey        string        `json:"mid" bson:"secretKey"`
 	MerchantPubKey   bson.ObjectId `json:"merchantPubKey" bson:"merchantPubKey"`
 	PsaPrivKey       bson.ObjectId `json:"psaPrivKey" bson:"psaPrivKey"`
 	PsaPubKey        bson.ObjectId `json:"psaPubKey" bson:"psaPubKey"`
@@ -55,3 +55,13 @@ func (Merchants) ToModels(data interface{}, model *[]Merchants) error {
 
 	return nil
 }
+
+// // Count : count database
+// func (this Merchants) Count() (int, error) {
+// 	db, err := config.GetMongoDB()
+// 	if err != nil {
+// 		return 0, err
+// 	} else {
+// 		return db.C("merchants").Count()
+// 	}
+// }
